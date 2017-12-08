@@ -1,14 +1,32 @@
 {
-  "name": "@freesgen/master-npm",
-  "version": "1.0.0",
+  "name": "master-npm",
+  "version": "1.0.1",
   "description": "trying and mastering npm",
   "main": "index.js",
   "scripts": {
     "test": "node test.js"
   },
+  "bin": {
+    "ic": "index.js"
+  },
   "author": "Jesus Guerrero",
   "license": "ISC",
   "dependencies": {
-    "@linclark/pkg": "^1.0.2"
-  }
+    "@linclark/pkg": "^1.0.1",
+    "axios": "0.17.1",
+    "chalk": "2.3.0",
+    "co": "4.6.0",
+    "co-prompt": "1.0.0",
+    "commander": "2.12.2",
+    "inquirer": "4.0.1"
+  },
+  "devDependencies": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jesusantguerrero/master-npm.git"
+  },
+  "bugs": {
+    "url": "https://github.com/jesusantguerrero/master-npm/issues"
+  },
+  "homepage": "https://github.com/jesusantguerrero/master-npm#readme"
 }
