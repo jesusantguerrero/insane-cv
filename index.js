@@ -1,34 +1,84 @@
 #!node
 const program = require('commander');
 const co = require('co');
-const prompt = require('co-prompt');
+const {prompt} = require('inquirer');
 const chalk = require('chalk')();
-const createRepo = require('./utils/github/create')
+const createRepo = require('./lib/github/create')
+const path = require('path');
+const os = require('os');
+const utils = require('./lib/utils');
 
-// program
-// .arguments('cv')
-// .option('-n, --name <name>', 'The name of the cv owner')
-// .option('-r, --role <role>', 'The role you are applying for')
+const questions = [
+  {
+    type: 'input',
+    name: 'user',
+    message: 'username: '
+  },
+  {
+    type: 'pasword',
+    name: 'password',
+    message: 'password: '
+  },
+  {
+    type: 'input',
+    name: 'repo',
+    message: 'name of your repo: '
+  },
+  {
+    type: 'input',
+    name: 'options',
+    message: 'options: '
+  },
 
-// .action((cv) => {
-//   co(function *() {
-//     const name = yield prompt('name: ')
-//     const role = yield prompt('role: ')
-//     console.log(`%s - %s , thanks for building your cv with us`,name, role)
-//   })
-// }) 
-// .parse(process.argv)
+]
+
+const mainMenu = [
+  {
+    type: 'list',
+    name: 'order',
+    message: 'Insane CV Menu',
+    choices: ['create new cv', 'add section', 'add item', 'delete section', 'delete item'],
+    default: 'create new cv'
+  }
+]
 program
 .version('0.0.1')
-.description('create repos in github remotely');
+.description('create repos in github remotely')
 
 program
-.command('github <user> <password> <repo>')
-.option('-u, --user <user>','your github username')
-.option('-p', '--password <password>', 'your githun password')
-.option('-r', '--repo <my_repo>', 'the name of your new repo')
-.action((github) => {
-    createRepo(user, password, repo, options)
-    .then((res) => console.log(res)) 
+.command('curriculum')
+.alias('cv')
+.description('make a custom cv')
+.action(()=> {
+  prompt(mainMenu).then((a) => {
+    switch (a.order) {
+      case 'create new cv':
+        createCV();
+        break;
+    
+      default:
+        console.log('this option is not available')
+        break;
+    }
+    createRepo(a.user, a.password, a.repo, a.options)
+    .then((res) => console.log(res))
+    .catch((err) => console.log(err))
+  })
 })
-.parse(process.argv)
+ 
+program.parse(process.argv)
+
+
+function createCV() {
+  const pathName = process.cwd();
+  const dirName = `${pathName}\\cv-jesus-guerrero`
+  const files = [
+    path.resolve('db','cv.js'),
+    path.resolve('styles','styles.css'),
+    'index.html',
+    'index.js'
+  ]
+  utils.createDir(dirName);
+  utils.scafold(dirName, files);
+  utils.listDir(dirName);
+}
