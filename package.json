@@ -4,7 +4,7 @@
   "description": "trying and mastering npm",
   "main": "index.js",
   "scripts": {
-    "test": "node test.js"
+    "test": "jasmine"
   },
   "bin": {
     "ic": "index.js"
@@ -20,7 +20,9 @@
     "commander": "2.12.2",
     "inquirer": "4.0.1"
   },
-  "devDependencies": {},
+  "devDependencies": {
+    "jasmine": "2.8.0"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/jesusantguerrero/master-npm.git"
