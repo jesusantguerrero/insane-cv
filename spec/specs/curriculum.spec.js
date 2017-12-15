@@ -35,7 +35,7 @@ describe("CV Builder", () => {
     
     it('should edit a education item', () => {
       const secondItem = Education.create('Bachiller Tecnico', 'Lilian Bayona', 2011, 2013, 3.0)
-      curriculum.editEducation(secondItem, 'Bachiller Tecnico')
+      curriculum.editEducation(secondItem, 0)
       expect(curriculum.getEducation()[0]).toBe(secondItem)
     })
 
