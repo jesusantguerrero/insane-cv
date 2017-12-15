@@ -25,17 +25,23 @@ describe("CV Builder", () => {
     let educationItem 
 
     beforeEach(() => {
-      educationItem =  new Education('Bachiller Tecnico', 'Lilian Bayona', 2011, 2013, 5.0)
+      educationItem =  Education.create('Bachiller Tecnico', 'Lilian Bayona', 2011, 2013, 5.0)
     })
-
+    
     it('should add a new education item', () => {
       curriculum.addEducation(educationItem)
       expect(curriculum.getEducation()[0]).toBe(educationItem)
     })
+    
+    it('should edit a education item', () => {
+      const secondItem = Education.create('Bachiller Tecnico', 'Lilian Bayona', 2011, 2013, 3.0)
+      curriculum.editEducation(secondItem, 'Bachiller Tecnico')
+      expect(curriculum.getEducation()[0]).toBe(secondItem)
+    })
 
-    it('should delete the education item by index', () => {
-      curriculum.deleteEducation(0)
-      expect(curriculum.getEducation().length).toBe(0)
+    it('should delete the education item by degree', () => {
+      curriculum.deleteEducation()
+      expect(curriculum.getEducation('Bachiller Tecnico').length).toBe(0)
     })
   })
 
@@ -61,6 +67,18 @@ describe("CV Builder", () => {
     
     it('should delete a skill by index', () => {
       expect(JSON.stringify(curriculum.deleteSkill(0, 'profesional'))).toBe(JSON.stringify([js]))
+    })
+  })
+
+  describe('experience', () =>{
+    it('should add a new experience', () => {
+      const ics = curriculum.addExperience('Web Developer', 'IC. Services','La Romana, RD','07-2017','11-2017', 'cosas desarrolladas', ['cosa una', 'cosa2'])
+      expect(JSON.stringify(curriculum.getExperience()[0])).toBe(JSON.stringify(ics))
+    })
+
+    it('should delete a experience by index', () => {
+      const ics = curriculum.addExperience('Web Developer', 'IC. Services','La Romana, RD', '07-2017','11-2017','cosas desarrolladas', ['cosa una', 'cosa2'])
+      expect(JSON.stringify(curriculum.deleteExperience(0))).toBe(JSON.stringify([ics]))
     })
   })
 })
