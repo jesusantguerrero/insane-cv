@@ -18,7 +18,8 @@
     "co": "4.6.0",
     "co-prompt": "1.0.0",
     "commander": "2.12.2",
-    "inquirer": "4.0.1"
+    "inquirer": "4.0.1",
+    "inquirer-recursive": "0.0.5"
   },
   "devDependencies": {
     "jasmine": "2.8.0"

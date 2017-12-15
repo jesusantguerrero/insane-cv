@@ -4,19 +4,21 @@ describe("CV Builder", () => {
   const Education = require('./../../lib/cvutils/Education')
   let curriculum, profile
   
-  beforeEach(() => {
-    curriculum = new Curriculum()
-    profile = new Profile('Jesus Guerrero', 'Web Developer','Always learning developing and mastering', 'jesusant.guerrero@gmail.com', '829-844-1674')
-  })
-
-  it('should set basic person data', () => {
-    curriculum.setProfile(profile)
-    expect(curriculum.getProfile()).toBe(profile)
-  })
-
-  it('should empty the profile', () => {
-    curriculum.emptyProfile()
-    expect(curriculum.getProfile()).toBe(null)
+  describe('profile', () => {
+    beforeEach(() => {
+      curriculum = new Curriculum()
+      profile = new Profile('Jesus Guerrero', 'Web Developer','Always learning developing and mastering', 'jesusant.guerrero@gmail.com', '829-844-1674')
+    })
+  
+    it('should set basic person data', () => {
+      curriculum.setProfile(profile)
+      expect(curriculum.getProfile()).toBe(profile)
+    })
+  
+    it('should empty the profile', () => {
+      curriculum.emptyProfile()
+      expect(curriculum.getProfile()).toBe(null)
+    })
   })
 
   describe('Education', () => {
@@ -43,7 +45,22 @@ describe("CV Builder", () => {
       const twitter = curriculum.addNetwork('twitter', 't', 'https://twitter.com/jesusntguerrero')
 
       expect(curriculum.getNetworks().toString()).toBe([github, twitter].toString())
+    })
+  })
 
+  describe('skills', () => {
+    let js 
+    beforeEach(() => {
+      js = curriculum.addSkill('javascript', 'expert')
+    })
+
+    it('should add a new skill to the cv', () => {
+      const php = curriculum.addSkill('php', 'medium')
+      expect(JSON.stringify(curriculum.getSkills('profesional'))).toBe(JSON.stringify([js, php]))
+    })
+    
+    it('should delete a skill by index', () => {
+      expect(JSON.stringify(curriculum.deleteSkill(0, 'profesional'))).toBe(JSON.stringify([js]))
     })
   })
 })
