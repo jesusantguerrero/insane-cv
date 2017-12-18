@@ -6,20 +6,20 @@ const program = require('commander');
 const co = require('co');
 const simplePrompt = require('co-prompt');
 const inquirer = require('inquirer');
-const {
-  prompt
-} = inquirer;
+const { prompt } = inquirer;
 const chalk = require('chalk').default;
 const inquirerRecursive = require('inquirer-recursive')
 const createRepo = require('./lib/github/create')
 const utils = require('./lib/utils');
-const Questions = require('./lib/cvutils/Questions')
-const Education = require('./lib/cvutils/Education')
 const clear = require('clear')
 const cli = require('clui')
 
-inquirer.registerPrompt('recursive', inquirerRecursive)
+// cv objects
+const Questions = require('./lib/cvutils/Questions')
+const Education = require('./lib/cvutils/Education')
+const Network = require('./lib/cvutils/Network')
 
+inquirer.registerPrompt('recursive', inquirerRecursive)
 
 const mainMenu = [{
   type: 'list',
@@ -66,6 +66,19 @@ program
             })
           }
           break
+        case 'Networks': {
+            const curriculum = loadCv();
+            Network.menu(curriculum)
+            .then((res) => {
+              saveCV(curriculum)
+            })
+          }
+          break
+        case 'Display': {
+          const curriculum = loadCv();
+          console.log(curriculum.getCurriculum())
+        }
+        break
         default:
           console.log('this option is not available')
           break
@@ -84,7 +97,7 @@ function createCV() {
       return Education.add(curriculum)
     })
     .then((res) => {
-      return addNetworks(curriculum)
+      return Network.add(curriculum)
     })
     .then((res) => {
       return addSkills(curriculum)

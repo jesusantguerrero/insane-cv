@@ -2,6 +2,7 @@ describe("CV Builder", () => {
   const Curriculum = require('./../../lib/cvutils/Curriculum')
   const Profile = require('./../../lib/cvutils/Profile')
   const Education = require('./../../lib/cvutils/Education')
+  const Network = require('./../../lib/cvutils/Network')
   let curriculum, profile
   
   describe('profile', () => {
@@ -46,9 +47,16 @@ describe("CV Builder", () => {
   })
 
   describe('networks', () => {
+    let github, twitter
+
+    beforeEach(() => {
+      const github = Network.create('github', 'gh', 'https://github.com/jesusantguerrero')
+      const twitter = Network.create('twitter', 't', 'https://twitter.com/jesusntguerrero')
+    })
+
     it('should add a new network to the profile', () => {
-      const github = curriculum.addNetwork('github', 'gh', 'https://github.com/jesusantguerrero')
-      const twitter = curriculum.addNetwork('twitter', 't', 'https://twitter.com/jesusntguerrero')
+      curriculum.addNetwork(github)
+      curriculum.addNetwork(twitter)
 
       expect(curriculum.getNetworks().toString()).toBe([github, twitter].toString())
     })
