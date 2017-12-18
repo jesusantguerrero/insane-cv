@@ -50,15 +50,20 @@ describe("CV Builder", () => {
     let github, twitter
 
     beforeEach(() => {
-      const github = Network.create('github', 'gh', 'https://github.com/jesusantguerrero')
-      const twitter = Network.create('twitter', 't', 'https://twitter.com/jesusntguerrero')
+      github = Network.create('github', 'gh', 'https://github.com/jesusantguerrero')
+      twitter = Network.create('twitter', 't', 'https://twitter.com/jesusntguerrero')
+      curriculum.addNetwork(github)
     })
 
     it('should add a new network to the profile', () => {
-      curriculum.addNetwork(github)
       curriculum.addNetwork(twitter)
+      expect(JSON.stringify(curriculum.getNetworks())).toBe(JSON.stringify([github, twitter]))
+    })
 
-      expect(curriculum.getNetworks().toString()).toBe([github, twitter].toString())
+    it('should delete a network item', () =>{
+      const deleted = curriculum.deleteNetwork(0)
+
+      expect(JSON.stringify(deleted)).toBe(JSON.stringify([github]))
     })
   })
 

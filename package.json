@@ -7,7 +7,7 @@
     "test": "jasmine"
   },
   "bin": {
-    "ic": "index.js"
+    "insane": "index.js"
   },
   "author": "Jesus Guerrero",
   "license": "ISC",

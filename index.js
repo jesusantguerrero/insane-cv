@@ -1,4 +1,4 @@
-#!usr/node
+#!/usr/bin/env node
 
 const os = require('os');
 const path = require('path');
@@ -181,7 +181,7 @@ function buildCv(curriculum) {
   utils.createDir('curriculum')
   utils.createDirs(assets, css, js, img, db)
   utils.scafold([css, 'styles.css'], [js, 'app.js'], 'index.html', 'server.js')
-  utils.createFile(path.resolve(db, 'cv.json'), JSON.stringify(curriculum.getCurriculum()))
+  utils.createFile(path.resolve(db, 'cv.json'), JSON.stringify(curriculum.getCurriculum(), null, 2))
   console.log(utils.listDir('curriculum'))
   console.log(chalk.hex('#0066ff')('ready to go!'))
 }
@@ -191,7 +191,7 @@ function saveCV(curriculum){
   const spinner = new cli.Spinner('saving changes...')
   cli.Clear()
   spinner.start()
-  utils.createFile(path.resolve(db, 'cv.json'), JSON.stringify(curriculum.getCurriculum()))
+  utils.createFile(path.resolve(db, 'cv.json'), JSON.stringify(curriculum.getCurriculum(), null, 2))
   spinner.stop()
   console.log(chalk.hex('#f20')('saved!'))
 }
