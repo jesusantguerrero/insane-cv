@@ -3,6 +3,7 @@ describe("CV Builder", () => {
   const Profile = require('./../../lib/cvutils/Profile')
   const Education = require('./../../lib/cvutils/Education')
   const Network = require('./../../lib/cvutils/Network')
+  const Skills = require('./../../lib/cvutils/Skills')
   let curriculum, profile
   
   describe('profile', () => {
@@ -70,16 +71,18 @@ describe("CV Builder", () => {
   describe('skills', () => {
     let js 
     beforeEach(() => {
-      js = curriculum.addSkill('javascript', 'expert')
+      js = Skills.create('javascript', 'expert')
     })
 
     it('should add a new skill to the cv', () => {
-      const php = curriculum.addSkill('php', 'medium')
-      expect(JSON.stringify(curriculum.getSkills('profesional'))).toBe(JSON.stringify([js, php]))
+      const php = Skills.create('php', 'medium')
+      curriculum.addSkill(js)
+      curriculum.addSkill(php)
+      expect(JSON.stringify(curriculum.getSkills())).toBe(JSON.stringify([js, php]))
     })
     
     it('should delete a skill by index', () => {
-      expect(JSON.stringify(curriculum.deleteSkill(0, 'profesional'))).toBe(JSON.stringify([js]))
+      expect(JSON.stringify(curriculum.deleteSkill(0))).toBe(JSON.stringify([js]))
     })
   })
 

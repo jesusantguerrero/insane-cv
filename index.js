@@ -18,6 +18,7 @@ const cli = require('clui')
 const Questions = require('./lib/cvutils/Questions')
 const Education = require('./lib/cvutils/Education')
 const Network = require('./lib/cvutils/Network')
+const Skills = require('./lib/cvutils/Skills')
 
 inquirer.registerPrompt('recursive', inquirerRecursive)
 
@@ -74,6 +75,14 @@ program
             })
           }
           break
+        case 'Skills': {
+            const curriculum = loadCv();
+            Skills.menu(curriculum)
+            .then((res) => {
+              saveCV(curriculum)
+            })
+          }
+          break
         case 'Display': {
           const curriculum = loadCv();
           console.log(curriculum.getCurriculum())
@@ -100,7 +109,7 @@ function createCV() {
       return Network.add(curriculum)
     })
     .then((res) => {
-      return addSkills(curriculum)
+      return Skills.add(curriculum)
     })
     .then((res) => {
       return addExperience(curriculum)
