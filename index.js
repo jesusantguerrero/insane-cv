@@ -15,10 +15,11 @@ const clear = require('clear')
 const cli = require('clui')
 
 // cv objects
-const Questions = require('./lib/cvutils/Questions')
+const Profile = require('./lib/cvutils/Profile')
 const Education = require('./lib/cvutils/Education')
 const Network = require('./lib/cvutils/Network')
 const Skills = require('./lib/cvutils/Skills')
+const Experience = require('./lib/cvutils/Experience')
 
 inquirer.registerPrompt('recursive', inquirerRecursive)
 
@@ -59,6 +60,17 @@ program
         case 'create new cv':
           createCV()
           break
+        case 'Profile': {
+            const curriculum = loadCv();
+            Profile.menu(curriculum)
+            .then((res) => {
+              saveCV(curriculum)
+            })
+            .catch((err) => {
+              console.log(err)
+            })
+          }
+          break
         case 'Education': {
             const curriculum = loadCv();
             Education.menu(curriculum)
@@ -83,6 +95,14 @@ program
             })
           }
           break
+        case 'Experience': {
+            const curriculum = loadCv();
+            Experience.menu(curriculum)
+            .then((res) => {
+              saveCV(curriculum)
+            })
+          }
+          break
         case 'Display': {
           const curriculum = loadCv();
           console.log(curriculum.getCurriculum())
@@ -101,7 +121,7 @@ function createCV() {
   const Curriculum = require('./lib/cvutils/Curriculum')
   const curriculum = new Curriculum()
   let educationMode = 'no'
-  setProfile(curriculum)
+    Profile.add(curriculum)
     .then((res) => {
       return Education.add(curriculum)
     })
@@ -112,7 +132,7 @@ function createCV() {
       return Skills.add(curriculum)
     })
     .then((res) => {
-      return addExperience(curriculum)
+      return Experience.add(curriculum)
     })
     .then((res) => {
       buildCv(curriculum)
@@ -136,47 +156,6 @@ function loadCv() {
   } catch(e) {
     return false
   }
-}
-
-function setProfile(curriculum) {
-  const Profile = require('./lib/cvutils/Profile')
-  let addAnother = true;
-  return prompt(Profile.questions())
-    .then((r) => {
-      const profile = new Profile(r.name, r.role, r.description, r.email, r.number)
-      curriculum.setProfile(profile)
-      return true
-    })
-}
-
-function addNetworks(curriculum) {
-  return prompt(Questions.networks)
-    .then((r) => {
-      r.networks.forEach((item) => {
-        curriculum.addNetwork(item.name, item.shortname, item.link)
-      })
-      return true
-    })
-}
-
-function addSkills(curriculum) {
-  return prompt(Questions.skills)
-  .then((r) => {
-    r.skills.forEach((item) => {
-      curriculum.addSkill(item.name, item.level, item.type)
-    })
-    return true
-  })
-}
-
-function addExperience(curriculum) {
-  return prompt(Questions.experience)
-  .then((r) => {
-    r.experiences.forEach((item) => {
-      curriculum.addSkill(item.position, item.company, item.location, item.start, item.end, item.description, item.highlights)
-    })
-    return true
-  })
 }
 
 function buildCv(curriculum) {

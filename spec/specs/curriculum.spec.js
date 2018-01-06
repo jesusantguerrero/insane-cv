@@ -4,12 +4,13 @@ describe("CV Builder", () => {
   const Education = require('./../../lib/cvutils/Education')
   const Network = require('./../../lib/cvutils/Network')
   const Skills = require('./../../lib/cvutils/Skills')
+  const Experience = require('./../../lib/cvutils/Experience')
   let curriculum, profile
   
   describe('profile', () => {
     beforeEach(() => {
       curriculum = new Curriculum()
-      profile = new Profile('Jesus Guerrero', 'Web Developer','Always learning developing and mastering', 'jesusant.guerrero@gmail.com', '829-844-1674')
+      profile = Profile.create('Jesus Guerrero', 'Web Developer','Always learning developing and mastering', 'jesusant.guerrero@gmail.com', '829-844-1674')
     })
   
     it('should set basic person data', () => {
@@ -87,13 +88,17 @@ describe("CV Builder", () => {
   })
 
   describe('experience', () =>{
+    let ics
+    beforeEach(() => {
+      ics = Experience.create('Web Developer', 'IC. Services','La Romana, RD','07-2017','11-2017', 'cosas desarrolladas', ['cosa una', 'cosa2'])
+      curriculum.addExperience(ics)
+    })
+
     it('should add a new experience', () => {
-      const ics = curriculum.addExperience('Web Developer', 'IC. Services','La Romana, RD','07-2017','11-2017', 'cosas desarrolladas', ['cosa una', 'cosa2'])
       expect(JSON.stringify(curriculum.getExperience()[0])).toBe(JSON.stringify(ics))
     })
 
     it('should delete a experience by index', () => {
-      const ics = curriculum.addExperience('Web Developer', 'IC. Services','La Romana, RD', '07-2017','11-2017','cosas desarrolladas', ['cosa una', 'cosa2'])
       expect(JSON.stringify(curriculum.deleteExperience(0))).toBe(JSON.stringify([ics]))
     })
   })
